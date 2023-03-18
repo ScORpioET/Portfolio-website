@@ -39,10 +39,10 @@ st.write('## You can demo it below')
 #adding a file uploader
 uploaded_file = st.file_uploader("Choose the face you want to predict", type=['png', 'jpg'])
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+
 
 if 'Recognition_model' not in st.session_state:
-    st.session_state['Recognition_model'] = MTL().to(device=device)
+    st.session_state['Recognition_model'] = MTL()
     st.session_state['Recognition_model'].load_state_dict(torch.load('./pages/Face_recognition_and_detection/FaceRecognition_model.pth'))
     st.session_state['Recognition_model'].eval()
 
@@ -81,7 +81,7 @@ if uploaded_file is not None:
                                 transforms.Resize((32, 32)), 
                                 transforms.ToTensor(), 
                                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
-                img_tensor = trns(capture).unsqueeze(0).to(device=device)
+                img_tensor = trns(capture).unsqueeze(0)
 
                 age_output, gender_output = st.session_state['Recognition_model'](img_tensor)
 

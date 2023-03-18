@@ -14,18 +14,17 @@ st.set_page_config(page_title="Hair color simulation", layout="centered")
 #adding a file uploader
 uploaded_file = st.file_uploader("Choose a picture you want to change hair color", type=['png', 'jpg'])
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+
 ratio = 0.3
 alpha = 0.85
 trns = transforms.Compose([transforms.Resize((128, 128)), transforms.ToTensor()])
 
-if 'Unet' not in st.session_state:
-    st.session_state['Unet'] = UNet(3, 1).to(device=device)
-    checkpoint = torch.load('./pages/Hair_segmentation/model.pth', map_location=device)
+if 'Unet' not in st.session_state:  
+    st.session_state['Unet'] = UNet(3, 1)
+    checkpoint = torch.load('./pages/Hair_segmentation/model.pth')
     st.session_state['Unet'].load_state_dict(checkpoint['model_state_dict'])
     st.session_state['Unet'].eval()
 
-face = cv2.cvtColor(cv2.imread("./pages/20.jpg"), cv2.COLOR_BGR2RGB)
 
 
 
@@ -37,8 +36,8 @@ if uploaded_file is not None:
     img = cv2.imdecode(img_buffer_numpy, 1)
     img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
-    img_tensor = trns(img).unsqueeze(0).to(device=device)
-    logits_mask=st.session_state['Unet'](img_tensor.to('cuda'))
+    img_tensor = trns(img).unsqueeze(0)
+    logits_mask=st.session_state['Unet'](img_tensor)
     pred_mask=torch.sigmoid(logits_mask)
     pred_mask=(pred_mask > ratio)*1.0
     mask = transforms.ToPILImage()((pred_mask.squeeze(0)))
