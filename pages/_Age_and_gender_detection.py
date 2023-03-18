@@ -48,7 +48,7 @@ if 'Recognition_model' not in st.session_state:
 
 
 if 'Detection_model' not in st.session_state:
-    st.session_state['Detection_model']  = torch.hub.load('ultralytics/yolov5', 'custom', path='./pages/Face_recognition_and_detection/FaceDetection_model.pt', map_location=torch.device('cpu'))
+    st.session_state['Detection_model']  = torch.hub.load('ultralytics/yolov5', 'custom', path='./pages/Face_recognition_and_detection/FaceDetection_model.pt')
 
 
 if uploaded_file is not None:
