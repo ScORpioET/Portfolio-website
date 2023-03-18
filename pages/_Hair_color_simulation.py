@@ -21,7 +21,7 @@ trns = transforms.Compose([transforms.Resize((128, 128)), transforms.ToTensor()]
 
 if 'Unet' not in st.session_state:  
     st.session_state['Unet'] = UNet(3, 1)
-    checkpoint = torch.load('./pages/Hair_segmentation/model.pth')
+    checkpoint = torch.load('./pages/Hair_segmentation/model.pth', map_location=torch.device('cpu'))
     st.session_state['Unet'].load_state_dict(checkpoint['model_state_dict'])
     st.session_state['Unet'].eval()
 
