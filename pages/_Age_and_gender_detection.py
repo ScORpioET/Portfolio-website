@@ -43,12 +43,12 @@ uploaded_file = st.file_uploader("Choose the face you want to predict", type=['p
 
 if 'Recognition_model' not in st.session_state:
     st.session_state['Recognition_model'] = MTL()
-    st.session_state['Recognition_model'].load_state_dict(torch.load('./pages/Face_recognition_and_detection/FaceRecognition_model.pth'), map_location=torch.device('cpu'))
+    st.session_state['Recognition_model'].load_state_dict(torch.load('./pages/Face_recognition_and_detection/FaceRecognition_model.pth', map_location=torch.device('cpu')))
     st.session_state['Recognition_model'].eval()
 
 
 if 'Detection_model' not in st.session_state:
-    st.session_state['Detection_model']  = torch.hub.load('ultralytics/yolov5', 'custom', path='./pages/Face_recognition_and_detection/FaceDetection_model.pt')
+    st.session_state['Detection_model']  = torch.hub.load('ultralytics/yolov5', 'custom', path='./pages/Face_recognition_and_detection/FaceDetection_model.pt', map_location=torch.device('cpu'))
 
 
 if uploaded_file is not None:
