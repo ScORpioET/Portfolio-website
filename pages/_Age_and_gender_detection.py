@@ -39,16 +39,16 @@ st.write('## You can demo it below')
 #adding a file uploader
 uploaded_file = st.file_uploader("Choose the face you want to predict", type=['png', 'jpg'])
 
+@st.cache_data
+def load_model():
+    Recognition_model = MTL()
+    Recognition_model.load_state_dict(torch.load('./pages/Face_recognition_and_detection/FaceRecognition_model.pth', map_location=torch.device('cpu')))
+    Recognition_model.eval()
+    Detection_model = torch.hub.load('ultralytics/yolov5', 'custom', path='./pages/Face_recognition_and_detection/FaceDetection_model.pt')
+    return Recognition_model, Detection_model
 
 
-if 'Recognition_model' not in st.session_state:
-    st.session_state['Recognition_model'] = MTL()
-    st.session_state['Recognition_model'].load_state_dict(torch.load('./pages/Face_recognition_and_detection/FaceRecognition_model.pth', map_location=torch.device('cpu')))
-    st.session_state['Recognition_model'].eval()
-
-
-if 'Detection_model' not in st.session_state:
-    st.session_state['Detection_model']  = torch.hub.load('ultralytics/yolov5', 'custom', path='./pages/Face_recognition_and_detection/FaceDetection_model.pt')
+Recognition_model, Detection_model = load_model()
 
 
 if uploaded_file is not None:
@@ -63,7 +63,7 @@ if uploaded_file is not None:
     button = st.button('Predict')
 
     if button:
-        Bboxs = st.session_state['Detection_model'](img)
+        Bboxs = Detection_model(img)
 
         if(len(Bboxs.pandas().xyxy[0]["name"].values)==0):
             st.error('### no people detected', icon="🚨")
@@ -83,7 +83,7 @@ if uploaded_file is not None:
                                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
                 img_tensor = trns(capture).unsqueeze(0)
 
-                age_output, gender_output = st.session_state['Recognition_model'](img_tensor)
+                age_output, gender_output = Recognition_model(img_tensor)
 
                 age = round(age_output.item())
                 gender_list = gender_output.tolist()[0]
