@@ -26,6 +26,8 @@ def load_model():
     Unet.load_state_dict(checkpoint['model_state_dict'])
     Unet.eval()
 
+Unet = load_model()
+
 
 if uploaded_file is not None:
 
@@ -36,7 +38,7 @@ if uploaded_file is not None:
     img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
     img_tensor = trns(img).unsqueeze(0)
-    logits_mask=st.session_state['Unet'](img_tensor)
+    logits_mask=Unet(img_tensor)
     pred_mask=torch.sigmoid(logits_mask)
     pred_mask=(pred_mask > ratio)*1.0
     mask = transforms.ToPILImage()((pred_mask.squeeze(0)))
