@@ -1,4 +1,30 @@
 import streamlit as st
+import shutil
+import os
+import zipfile
+
+if not os.path.isfile("./pages/Face_recognition_and_detection/FaceRecognition_model.pth"):
+    try:   
+        os.system("type FaceRecognition_model.zip.001 FaceRecognition_model.zip.002 > ./FaceRecognition_model.zip")
+        os.remove('FaceRecognition_model.zip.002')
+        os.remove('FaceRecognition_model.zip.001')
+    except:
+        pass
+    with zipfile.ZipFile('FaceRecognition_model.zip', 'r') as zip_ref:
+        zip_ref.extractall('./pages/Face_recognition_and_detection')
+    # shutil.move("./FaceRecognition_model.pth", "./pages/Face_recognition_and_detection/FaceRecognition_model.pth")
+
+if not os.path.isfile("./pages/Hair_segmentation/model.pth"):
+    try:
+        os.system("type model.zip.001 model.zip.002 model.zip.003 model.zip.004 > model.zip")
+        os.remove('model.zip.001')
+        os.remove('model.zip.002')
+        os.remove('model.zip.003')
+        os.remove('model.zip.004')
+    except:
+        pass
+    with zipfile.ZipFile('model.zip', 'r') as zip_ref:
+        zip_ref.extractall('./pages/Hair_segmentation/')
 
 st.set_page_config(
     page_title="Hello",
