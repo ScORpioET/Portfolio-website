@@ -21,8 +21,6 @@ Welcome to my portfolio website. First I have to apologize for not having a **WE
 ```
 git clone https://github.com/ScORpioET/Portfolio-website.git
 
-unzip './Pro'
-
 pip install -r requirements.txt
 
 streamlit run Welcome.py
