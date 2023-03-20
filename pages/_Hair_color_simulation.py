@@ -8,6 +8,8 @@ from torchvision import transforms
 from PIL import Image
 
 
+
+
 # set page config
 st.set_page_config(page_title="Hair color simulation", layout="centered")
 
@@ -25,6 +27,7 @@ def load_model():
     checkpoint = torch.load('./pages/Hair_segmentation/model.pth', map_location=torch.device('cpu'))
     Unet.load_state_dict(checkpoint['model_state_dict'])
     Unet.eval()
+    return Unet
 
 Unet = load_model()
 
