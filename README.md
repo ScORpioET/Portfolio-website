@@ -1,6 +1,6 @@
 # PORTFOLIO WEBSITE
 
-Welcome to my portfolio website. First I have to apologize for not having a **WEBSITE**. I have tried using AWS and GCP to set up a website, but the RAM provided by the free plan is not enough for more than one user to operate at the same time. So sorry I can only demo in this way.
+Welcome to my portfolio website. First, I have to apologize for not having a **WEBSITE**. I have tried using AWS and GCP to set up a website, but the RAM provided by the free plan is not enough for more than one user to operate at the same time. So sorry I can only demo in this way.
 
 ---
 
